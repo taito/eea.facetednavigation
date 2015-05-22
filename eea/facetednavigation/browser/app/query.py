@@ -7,6 +7,7 @@ from zope.component import getUtility
 from zope.component import queryAdapter
 
 from Products.CMFPlone.utils import safeToInt
+from Products.CMFPlone.utils import safe_unicode
 from Products.CMFPlone.PloneBatch import Batch
 from plone.registry.interfaces import IRegistry
 
@@ -128,6 +129,15 @@ class FacetedQueryHandler(object):
         """ Search using given criteria
         """
         if self.request:
+            for key in self.request.form:
+                if key[-2:] == '[]':
+                    if not isinstance(self.request.form[key], basestring):
+                        res = []
+                        for val in self.request.form[key]:
+                            res.append(safe_unicode(val))
+                    else:
+                        res = [safe_unicode(self.request.form[key]), ]
+                    self.request.form[key] = res
             kwargs.update(self.request.form)
             kwargs.pop('sort[]', None)
             kwargs.pop('sort', None)
