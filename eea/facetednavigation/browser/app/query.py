@@ -122,6 +122,21 @@ class FacetedQueryHandler(object):
             lang = [lang, '']
         query.setdefault('Language', lang)
 
+        omits = ['Language', 'portal_type', 'sort_on', 'sort_order', 'facet.field', 'Subject']
+        for field in query:
+            if field not in omits and isinstance(query.get(field), dict):
+                quer = query[field].get('query')
+                if quer is not None:
+                    if isinstance(quer, str):
+                        query[field]['query'] = safe_unicode(quer)
+                    elif isinstance(quer, list):
+                        res = []
+                        for que in quer:
+                            res.append(safe_unicode(que))
+                        query[field]['query'] = res
+                    else:
+                        pass
+
         logger.debug('QUERY: %s', query)
         return query
 
@@ -129,15 +144,17 @@ class FacetedQueryHandler(object):
         """ Search using given criteria
         """
         if self.request:
-            for key in self.request.form:
-                if key[-2:] == '[]':
-                    if not isinstance(self.request.form[key], basestring):
-                        res = []
-                        for val in self.request.form[key]:
-                            res.append(safe_unicode(val))
-                    else:
-                        res = [safe_unicode(self.request.form[key]), ]
-                    self.request.form[key] = res
+
+            # for key in self.request.form:
+            #     if key[-2:] == '[]':
+            #         if not isinstance(self.request.form[key], basestring):
+            #             res = []
+            #             for val in self.request.form[key]:
+            #                 res.append(safe_unicode(val))
+            #         else:
+            #             res = [safe_unicode(self.request.form[key]), ]
+            #         self.request.form[key] = res
+
             kwargs.update(self.request.form)
             kwargs.pop('sort[]', None)
             kwargs.pop('sort', None)
