@@ -441,7 +441,10 @@ class CountableWidget(Widget):
             if not value:
                 res[value] = len(brains)
                 continue
-            normalized_value = atdx_normalize(value)
+            if index_id == 'Subject':
+                normalized_value = atdx_normalize(value)
+            else:
+                normalized_value = value
             rset = ctool.apply_index(self.context, index, normalized_value)[0]
             rset = IISet(rset)
             rset = weightedIntersection(brains, rset)[1]

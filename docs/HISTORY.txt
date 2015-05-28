@@ -6,6 +6,8 @@ Changelog
 
 * Fix: UnicodeDecodeError for multi choice checkbox widget.
   [taito #25]
+* Fix: UnicodeDecodeError when restrict number of keywords with non-ascii words in widgets.
+  [taito]
 
 8.0 - (2015-04-15)
 ------------------
