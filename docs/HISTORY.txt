@@ -1,13 +1,26 @@
 Changelog
 =========
 
-8.1.dev0 - (unreleased)
+8.2.dev0 - (unreleased)
 -----------------------
 
 * Fix: UnicodeDecodeError for multi choice checkbox widget.
   [taito #25]
 * Fix: UnicodeDecodeError when restrict number of keywords with non-ascii words in widgets.
   [taito]
+
+8.1 - (2015-07-06)
+------------------
+* Change: applied styles tweaks for faceted edititing when used together
+  with Twitter Bootstrap
+  [ichimdav refs #25986]
+* Bug fix: Cleanup debugging console.log
+  [avoinea refs #67]
+* Tune: avoid useless instantiation when using macros
+  [gotcha]
+* Feature: Added 'wildcard' checkbox to the text widget
+  that, when checked, will do a wildcard search automatically
+  [gbastien]
 
 8.0 - (2015-04-15)
 ------------------
